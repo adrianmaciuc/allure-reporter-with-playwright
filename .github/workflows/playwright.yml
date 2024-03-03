@@ -1,27 +1,75 @@
-name: Playwright Tests
+name: Allure-Playwright
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
+
 jobs:
-  test:
-    timeout-minutes: 60
+
+  setup-and-run-tests:
+    # setup and run the tests in parallel machines, with each machine uploading its own results to artifacts
+    # artifacts are shared among jobs and machines
+    timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1/2, 2/2]
+
     steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright browsers
+      run: npx playwright install chromium
+
+    - name: Run Playwright tests
+      run: npx playwright test --shard ${{ matrix.shard }}
+
+    # Once playwright finishes it will create a folder called 'allure-results'
+    - name: Upload results to GitHub Actions Artifacts
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-results-${{ matrix.shard }} # name of the file you want to have once its uploaded
+        path: allure-results # path where the reports are, from where to take the files. 
+        retention-days: 10
+
+
+  merge-reports-and-upload:
+    # Merge reports after playwright tests, even if some shards have failed
+    if: always()
+    needs: [setup-and-run-tests]
+    runs-on: ubuntu-latest
+
+    steps:
+
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: 18
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v3
-      if: always()
+
+    # we now download the results uploaded previously to merge them and create one single html report
+    - name: Download allure results from GitHub Actions Artifacts
+      uses: actions/download-artifact@v3
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        pattern: allure-results-* # pattern for files stored as artifact (as uploaded at the previous job)
+        merge-multiple: true
+        path: merged-allure-results # name of the folder where ALL results will be extracted
+
+    # This will generate one single html file into a folder called ./allure-report
+    - name: Generate report
+      run: npx allure generate ./merged-allure-results --single-file
+
+    - name: Upload single html file as report to artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-report
+        path: allure-report # path where the reports are, from where to take the files. 
+        retention-days: 10
