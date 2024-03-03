@@ -19,6 +19,7 @@ test.describe('full PARALLEL mode', () => {
   });
 
   test("5 parallel", async ({ page }, testInfo) => {
+    testInfo.fail()
     console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
