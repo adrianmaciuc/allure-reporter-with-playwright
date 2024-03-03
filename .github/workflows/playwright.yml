@@ -7,7 +7,6 @@ jobs:
   setup-and-run-tests:
     # setup and run the tests in parallel machines, with each machine uploading its own results to artifacts
     # artifacts are shared among jobs and machines
-    timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -17,11 +16,11 @@ jobs:
         shardTotal: [2]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
 
     - name: Install dependencies
       run: npm ci
@@ -33,7 +32,7 @@ jobs:
       run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
     # Once playwright finishes it will create a folder called 'allure-results'
-    - name: Upload results to GitHub Actions Artifacts
+    - name: Upload results to Artifacts
       if: always()
       uses: actions/upload-artifact@v4
       with:
@@ -42,7 +41,7 @@ jobs:
         retention-days: 10
 
 
-  merge-reports-and-upload:
+  merge-reports:
     # Merge reports after playwright tests, even if some shards have failed
     if: always()
     needs: [setup-and-run-tests]
@@ -50,14 +49,13 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
     - name: Install dependencies
       run: npm ci
 
-    # we now download the results uploaded previously to merge them and create one single html report
     - name: Download allure results from GitHub Actions Artifacts
       uses: actions/download-artifact@v4
       with:
