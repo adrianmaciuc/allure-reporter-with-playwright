@@ -15,10 +15,12 @@ test.describe('full PARALLEL mode', () => {
   });
 
   test("4 parallel", async ({ page }, testInfo) => {
+    testInfo.fail()
     console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("5 parallel", async ({ page }, testInfo) => {
+    testInfo.fail()
     console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
@@ -26,4 +28,12 @@ test.describe('full PARALLEL mode', () => {
     console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
+  test("7 parallel", async ({ page }, testInfo) => {
+    testInfo.fail()
+    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  })
+
+  test("8 parallel", async ({ page }, testInfo) => {
+    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  });
 });
