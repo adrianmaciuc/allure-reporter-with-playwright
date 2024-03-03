@@ -68,8 +68,18 @@ jobs:
       run: npx allure generate ./merged-allure-results --single-file
 
     - name: Upload single html file as report to artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: allure-report
         path: allure-report # path where the reports are, from where to take the files. 
         retention-days: 10
+
+    - name: AWS upload to S3
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-north-1
+
+    - name: Deploy html report to S3
+      run: aws s3 cp ./allure-report s3://allure-history-ad/history/ --recursive --acl bucket-owner-full-control
