@@ -1,4 +1,4 @@
-Welcome to the Playwright Tests Framework Example!
+Welcome to the Playwright Test Framework example using Allure Reporter and history backup at AWS S3 Buckets
 
 This project, created by (Adrian Maciuc)[https://martioli.com/] - showcases a Playwright-based testing framework that showcases the use of paralellism with sharding feature. 
 
