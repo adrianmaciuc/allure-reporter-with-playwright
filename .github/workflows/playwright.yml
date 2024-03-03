@@ -12,7 +12,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # shard values will be used to run playwright with sharding feature
         shard: [1/2, 2/2]
+        # id values will be used to store our results as artifacts
+        id: [1, 2]
 
     steps:
     - uses: actions/checkout@v3
@@ -35,7 +38,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: allure-results # name of the file you want to have once its uploaded. If multiple with the same then it will receive by default unique nr
+        name: allure-results-${{ matrix.id }} # name of the file you want to have once its uploaded. If multiple with the same then it will receive by default unique nr
         path: allure-results # path where the reports are, from where to take the files. 
         retention-days: 10
 
