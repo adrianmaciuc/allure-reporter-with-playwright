@@ -15,7 +15,7 @@ jobs:
         # shard values will be used to run playwright with sharding feature
         shardIndex: [1, 2]
         shardTotal: [2]
-        
+
     steps:
     - uses: actions/checkout@v3
 
@@ -37,7 +37,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: allure-results-${{ github.job }} # name of the file you want to have once its uploaded. If multiple with the same then it will receive by default unique nr
+        name: allure-results-${{ matrix.shardIndex }} # name of the file you want to have once its uploaded. If multiple with the same then it will receive by default unique nr
         path: allure-results # path where the reports are, from where to take the files. 
         retention-days: 10
 
