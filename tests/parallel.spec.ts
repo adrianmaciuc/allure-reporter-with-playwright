@@ -15,11 +15,16 @@ test.describe('full PARALLEL mode', () => {
   });
 
   test("4 parallel", async ({ page }, testInfo) => {
+    testInfo.skip()
     console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("5 parallel", async ({ page }, testInfo) => {
     testInfo.fail()
+    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  });
+
+  test("6 parallel", async ({ page }, testInfo) => {
     console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
