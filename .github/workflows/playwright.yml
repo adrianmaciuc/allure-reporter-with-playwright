@@ -66,7 +66,7 @@ jobs:
     - name: Download allure results from GitHub Actions Artifacts
       uses: actions/download-artifact@v4
       with:
-        pattern: allure-results* # pattern for files stored as artifact (as uploaded at the previous job)
+        pattern: allure-results* # pattern for multiple files previously stored as artifacts 
         merge-multiple: true
         path: merged-allure-results # name of the folder where ALL results will be extracted
 
@@ -82,7 +82,7 @@ jobs:
       run: aws s3 cp ./allure-report/history s3://allure-history-ad/history/  --recursive --acl bucket-owner-full-control
 
     - name: Generate report as a single html file
-      run: npx allure generate ./merged-allure-results --clean
+      run: npx allure generate ./merged-allure-results --clean --single-file
 
     - name: Upload single html file as report to artifacts
       uses: actions/upload-artifact@v4
@@ -99,4 +99,4 @@ jobs:
         aws-region: eu-north-1
 
     - name: Deploy html report to S3
-      run: aws s3 cp ./allure-report s3://allure-history-ad/history/ --recursive --acl bucket-owner-full-control
+      run: aws s3 cp ./allure-report s3://allure-history-ad/report/ --recursive --acl bucket-owner-full-control
