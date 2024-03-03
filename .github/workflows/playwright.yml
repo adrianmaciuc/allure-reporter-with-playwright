@@ -41,7 +41,7 @@ jobs:
         retention-days: 10
 
 
-  merge-reports:
+  generate-report:
     # Merge reports after playwright tests, even if some shards have failed
     if: always()
     needs: [setup-and-run-tests]
@@ -56,6 +56,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: AWS cli setup
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-north-1
+
     - name: Download allure results from GitHub Actions Artifacts
       uses: actions/download-artifact@v4
       with:
@@ -63,9 +70,19 @@ jobs:
         merge-multiple: true
         path: merged-allure-results # name of the folder where ALL results will be extracted
 
-    # This will generate one single html file into a folder called ./allure-report
+    # If you put the current history inside allure-results Allure can generate a report that includes your history
+    - name: Download current history files from S3
+      run: aws s3 cp s3://allure-history-ad/history/ ./merged-allure-results/history  --recursive
+
     - name: Generate report
-      run: npx allure generate ./merged-allure-results --single-file
+      run: npx allure generate ./merged-allure-results
+
+    # You will now get the latest history files with the current run results appended and we now copy the history to the same S3 bucket to overwrite the previous history files
+    - name: Backup the history with the latest data
+      run: aws s3 cp ./allure-report/history s3://allure-history-ad/history/  --recursive --acl bucket-owner-full-control
+
+    - name: Generate report as a single html file
+      run: npx allure generate ./merged-allure-results --clean
 
     - name: Upload single html file as report to artifacts
       uses: actions/upload-artifact@v4
