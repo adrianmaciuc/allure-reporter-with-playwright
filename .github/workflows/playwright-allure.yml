@@ -63,6 +63,12 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: eu-north-1
 
+    # We want a unique identifier to be used when we create subdirectories on our cloud for reports 
+    - name: Set a timestamp
+      id: timestampid
+      # this will store current time with UTC in outputs.timestamp (eg of value: 20231028_233147Z)
+      run: echo "timestamp=$(date --utc +%Y%m%d_%H%M%SZ)" >> "$GITHUB_OUTPUT" 
+
     - name: Download allure results from GitHub Actions Artifacts
       uses: actions/download-artifact@v4
       with:
@@ -72,24 +78,20 @@ jobs:
 
     # If you put the current history inside allure-results, Allure can generate a report that will merge history files
     - name: Download current history files from S3
-      run: aws s3 cp s3://allure-history-ad/history/ ./merged-allure-results/history  --recursive
+      run: aws s3 cp s3://allure-history-ad/history/ ./merged-allure-results/history --recursive
 
     - name: Generate report
       run: npx allure generate ./merged-allure-results
 
     # Copy the history to the same S3 bucket to overwrite the previous history files with updated history
     - name: Backup the history with the latest data
-      run: aws s3 cp ./allure-report/history s3://allure-history-ad/history/  --recursive --acl bucket-owner-full-control
+      run: aws s3 cp ./allure-report/history s3://allure-history-ad/history/  --recursive
 
-    - name: Generate report as a single html file
-      run: npx allure generate ./merged-allure-results --clean --single-file
-
-    - name: Upload single html file as report to artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-report
-        path: allure-report # path where the reports are, from where to take the files. 
-        retention-days: 10
+    - name: Generate Allure report 
+      run: npx allure generate ./merged-allure-results --clean
 
     - name: Deploy html report to S3
-      run: aws s3 cp ./allure-report s3://allure-history-ad/report/ --recursive --acl bucket-owner-full-control
+      run: aws s3 cp ./allure-report s3://allure-history-ad/report/${{ steps.timestampid.outputs.timestamp }}/ --recursive
+
+    - name: Write URL in summary
+      run: echo "### Test results - http://allure-history-ad.s3-website.eu-north-1.amazonaws.com/report/${{ steps.timestampid.outputs.timestamp }}/index.html" >> $GITHUB_STEP_SUMMARY
