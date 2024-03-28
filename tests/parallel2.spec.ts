@@ -1,22 +1,22 @@
 
 import { test } from "@playwright/test";
 
-test.describe('full PARALLEL mode', () => {
+test.describe('full PARALLEL', () => {
 
-  test("5 parallel", async ({ page }, testInfo) => {
-    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  test("9 parallel", async ({ page }, testInfo) => {
+    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
-  test("6 parallel", async ({ page }, testInfo) => {
-    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  test("10 parallel", async ({ page }, testInfo) => {
+    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
-  test("7 parallel", async ({ page }, testInfo) => {
-    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  test("11 parallel", async ({ page }, testInfo) => {
+    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
-  test("8 parallel", async ({ page }, testInfo) => {
-    console.log(`test name: ${testInfo.title} | parallel index :${testInfo.parallelIndex} | shard index: ${JSON.stringify(testInfo.config.shard)}`)
+  test("12 parallel", async ({ page }, testInfo) => {
+    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
 });
