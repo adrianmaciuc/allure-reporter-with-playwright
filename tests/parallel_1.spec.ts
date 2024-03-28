@@ -3,19 +3,19 @@ import { test } from "@playwright/test";
 test.describe('FIRST SUITE PARALLEL', () => {
 
   test("1 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("2 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("3 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("4 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
 });
@@ -23,19 +23,19 @@ test.describe('FIRST SUITE PARALLEL', () => {
 test.describe('SECOND SUITE PARALLEL', () => {
 
   test("5 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("6 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("7 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
   test("8 parallel", async ({ page }, testInfo) => {
-    console.log(`test.name: ${testInfo.title} | spec.file.name: ${testInfo.titlePath[0]} | worker :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
+    console.log(`spec.file.name: ${testInfo.titlePath[0]} | test.suite: ${testInfo.titlePath[1]} | test.name: ${testInfo.title} | worker_id :${testInfo.parallelIndex} | shard.index: ${JSON.stringify(testInfo.config.shard)}`)
   });
 
 });
