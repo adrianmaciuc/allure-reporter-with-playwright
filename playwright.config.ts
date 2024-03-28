@@ -6,7 +6,7 @@ export default defineConfig({
   fullyParallel: true,
   workers: process.env.CI ? 3 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'allure-playwright',
+  reporter: 'html',
 
   projects: [
     {
