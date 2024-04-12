@@ -79,8 +79,8 @@ jobs:
     - name: Download current history files from S3
       run: aws s3 cp s3://allure-history-ad/history/ ./merged-allure-results/history --recursive
 
-    - name: Generate report
-      run: npx allure generate ./merged-allure-results
+    # - name: Generate report
+    #   run: npx allure generate ./merged-allure-results
 
     # Copy the history to the same S3 bucket to overwrite the previous history files with updated history
     - name: Backup the history with the latest data
